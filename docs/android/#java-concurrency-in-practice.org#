@@ -5,8 +5,8 @@
 2. *Queue* 包含：PriorityBlockingQueue 和 BlockingQueue
 
 ** Synchronizers 同步器     
-1. *Semaphore*
-2. *Latch*: 当某个条件达成以后才会开始执行，常用类：CountDownLatch，demo如下：
+1. *Semaphore*: 信号量
+2. *Latch*: 当某个条件达成以后才会开始执行，常用类：CountDownLatch，demo：
 #+BEGIN_SRC java
         CountDownLatch startGate = new CountDownLatch(1);
         CountDownLatch endGate = new CountDownLatch(N);
@@ -46,4 +46,4 @@
 
         System.out.println(" main run end ===== >");
 #+END_SRC
-
+ 4. *Barriers*
