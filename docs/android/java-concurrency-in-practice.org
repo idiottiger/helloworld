@@ -1,0 +1,50 @@
+* Java Concurrency In Practice 读书笔记
+
+** 基本数据结构
+1. *CopyOnWriteArrayList* 除了 get 方法以外，add 和 remove 操作都会进行拷贝数据，Iterator 时不能修改数据
+2. *Queue* 包含：PriorityBlockingQueue 和 BlockingQueue
+
+** Synchronizers 同步器     
+1. *Semaphore*
+2. *Latch*: 当某个条件达成以后才会开始执行，常用类：CountDownLatch，demo如下：
+#+BEGIN_SRC java
+        CountDownLatch startGate = new CountDownLatch(1);
+        CountDownLatch endGate = new CountDownLatch(N);
+        Random random = new Random();
+
+        System.out.println(" main start running ===== >");
+
+        for (int i = 0; i < N; i++) {
+            final int index = i;
+            new Thread(() -> {
+                System.out.println("thread [" + index + "] WAITING ... ");
+                try {
+                    startGate.await();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                System.out.println("thread [" + index + "] RUNNING ... ");
+                try {
+                    Thread.sleep(random.nextInt(N) * 1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                endGate.countDown();
+                System.out.println("thread [" + index + "] END ... ");
+            }).start();
+        }
+
+        System.out.println(" start gate OPEN ... ");
+        startGate.countDown();
+
+        System.out.println(" start wait for thread run ... ");
+        try {
+            endGate.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println(" main run end ===== >");
+#+END_SRC
+ 3.
+
